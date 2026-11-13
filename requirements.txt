@@ -1,0 +1,32 @@
+# Requirements for the IC Markets cTrader scalping trading bot
+
+Install with:
+
+    .venv/bin/pip install -r requirements.txt
+
+## Core dependencies
+
+- `pandas` - historical data handling, backtesting, signal indicators
+- `numpy` - numerical computations (EMA, standard deviation, etc.)
+- `scipy` - (available) statistical functions
+- `ccxt` - data fetching fallback exchange support (not used for broker)
+- `pytest` - unit testing
+
+## cTrader Open API dependencies
+
+- `ctrader-api-client` - Python client for the cTrader Open API
+  - Provides `CTraderClient` (async, Protobuf over TCP+TLS) and the high-level
+    async API surfaces: `accounts`, `symbols`, `trading`, `market_data`.
+  - Requires Python 3.12+ (this project uses 3.14).
+  - Install: `pip install ctrader-api-client`
+
+## Quick setup
+
+    cd /home/micky/trading-bot
+    .venv/bin/pip install -r requirements.txt
+    echo ".env" >> .gitignore
+
+    # (optional) create a .env with your cTrader credentials:
+    # CTRADER_ACCOUNT_ID=1234567
+    # CTRADER_CLIENT_ID=your_client_id
+    # CTRADER_SECRET=your_client_secret

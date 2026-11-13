@@ -1,0 +1,39 @@
+# Scalping Trading Bot Configuration
+# Point this at your IC Markets cTrader account
+
+broker: ctrader
+paper_trading: true  # Set to false for live trading
+
+# IC Markets cTrader Open API credentials
+# Get these from openapi.icmarkets.com (register an app, then copy Client ID & Secret)
+api_key: "YOUR_CLIENT_ID"
+api_secret: "YOUR_CLIENT_SECRET"
+
+# IC Markets cTrader account ID (trader login)
+account_id: 1234567
+
+# Markets to trade (cTrader CFD codes)
+markets:
+  - CL=F        # WTI Crude Oil
+  - NG=F        # Natural Gas
+  - GC=F        # Gold
+  - HG=F        # Copper
+  - SI=F        # Silver
+  - XAU=F       # Gold spot (if trading)
+  - XAG=F       # Silver spot
+
+# Risk Parameters
+risk:
+  max_per_trade: 0.0025     # 0.25% of account per trade
+  daily_loss_limit: 0.015   # 1.5% daily loss limit
+  max_drawdown: 0.03        # 3% max drawdown
+
+# Trading Parameters
+trading:
+  tick_interval: 5          # Seconds between tick cycles
+  paper_trading: true       # Set to false for live trading
+
+# Logging
+logging:
+  level: INFO
+  log_file: "logs/trading.log"

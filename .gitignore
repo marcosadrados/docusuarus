@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+
+# Test artifacts
+.pytest_cache/
+
+# Logs
+logs/*.log
+logs/trading.log
+
+# Environment variables
+.env
+*.env
+
+# Data
+*.db
+market_data.db
