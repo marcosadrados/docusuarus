@@ -19,6 +19,7 @@ Usage (paper-trading demo account)::
     order = await broker.execute_buy("CL=F", amount=1.0)
     await broker.disconnect()
 """
+
 from __future__ import annotations
 
 import asyncio
@@ -26,16 +27,17 @@ import logging
 from decimal import Decimal
 from typing import Optional
 
-from ctrader_api_client import CTraderClient, ClientConfig
+from ctrader_api_client import ClientConfig, CTraderClient
+from ctrader_api_client.enums import OrderSide as OSide
+from ctrader_api_client.enums import OrderType as OType
 from ctrader_api_client.models import (
-    AccountSummary,
     NewOrderRequest,
-    Order as COrder,
     Position,
     Symbol,
-    SymbolInfo,
 )
-from ctrader_api_client.enums import OrderSide as OSide, OrderType as OType
+from ctrader_api_client.models import (
+    Order as COrder,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -182,14 +184,20 @@ class CTraderBroker:
         return info
 
     async def execute_buy(
-        self, symbol: str, amount: float = 1.0, price: Optional[float] = None,
+        self,
+        symbol: str,
+        amount: float = 1.0,
+        price: Optional[float] = None,
         order_type: str = "market",
     ) -> dict:
         """Place a buy (long) order."""
         return await self._place_order(symbol, amount, price, order_type, OSide.BUY)
 
     async def execute_sell(
-        self, symbol: str, amount: float = 1.0, price: Optional[float] = None,
+        self,
+        symbol: str,
+        amount: float = 1.0,
+        price: Optional[float] = None,
         order_type: str = "market",
     ) -> dict:
         """Place a sell (short) order."""
@@ -213,7 +221,9 @@ class CTraderBroker:
             side=side,
             volume=volume,
             order_type=otype,
-            limit_price=Decimal(str(price)) if (price and otype == OType.LIMIT) else None,
+            limit_price=(
+                Decimal(str(price)) if (price and otype == OType.LIMIT) else None
+            ),
         )
 
         result = await client.trading.place_order(self.account_id, request)

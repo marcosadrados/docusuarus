@@ -7,7 +7,6 @@ and drawdown limits.
 Markets: oil (WTI CL, Brent BZ), gas (NG), metals (GC, SI, HG) futures.
 """
 
-
 #: Maximum risk per single trade as a fraction of account balance.
 #: 0.25% of a $10,000 account = $25.
 MAX_PER_TRADE = 0.0025

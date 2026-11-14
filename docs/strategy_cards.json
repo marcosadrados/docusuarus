@@ -1,0 +1,127 @@
+[
+  {
+    "name": "market_trend",
+    "class": "MarketTrendStrategy",
+    "fit_window": "2026-11-01..2026-11-10",
+    "rule": "EMA 5/20 momentum + volume",
+    "oos": {
+      "folds": 3,
+      "mean_sharpe": 1.6493,
+      "std_sharpe": 1.1085,
+      "mean_win_rate": 0.9006,
+      "mean_max_drawdown": -0.0039,
+      "mean_pnl": 4.9137,
+      "n_folds": 3
+    },
+    "status": "validated on sample",
+    "regime_coverage": [
+      "low_vol",
+      "trend",
+      "reversal"
+    ],
+    "max_trades_per_day": 48,
+    "connector": "cme (IC Markets cTrader) / binance",
+    "evidence": "Seed=42 sample: OOS Sharpe +1.65, win rate 90.1%, max DD -0.39%, mean pnl +4.91%",
+    "loadable": true,
+    "build": "market_trend"
+  },
+  {
+    "name": "rule_simple",
+    "class": "RuleStrategy",
+    "fit_window": "2026-11-01..2026-11-10",
+    "rule": "simple DSL rule set (compiled)",
+    "oos": null,
+    "status": "placeholder (no evidence yet)",
+    "regime_coverage": [
+      "low_vol",
+      "trend",
+      "reversal"
+    ],
+    "max_trades_per_day": 48,
+    "connector": "cme (IC Markets cTrader) / binance",
+    "evidence": "Placeholder template; not yet evaluated for OOS directional performance",
+    "loadable": false
+  },
+  {
+    "name": "stat_arb",
+    "class": "StatArbStrategy",
+    "fit_window": "2026-11-01..2026-11-07",
+    "rule": "pairs_stat_arb",
+    "oos": {
+      "folds": 0,
+      "mean_sharpe": null,
+      "mean_win_rate": null,
+      "mean_max_drawdown": null,
+      "mean_pnl": 0.0,
+      "trades": 0,
+      "entries": 0
+    },
+    "status": "runnable; 0 entries on trending sample",
+    "regime_coverage": [
+      "low_vol",
+      "trend",
+      "reversal"
+    ],
+    "max_trades_per_day": 48,
+    "connector": "cme (IC Markets cTrader) / binance",
+    "evidence": "Stat-arb mean-reversion needs a mean-reverting pair spread; trending synthetic sample yields 0 entries (pair fit required)",
+    "loadable": true,
+    "build": "stat_arb"
+  },
+  {
+    "name": "freqai",
+    "class": "Freqai",
+    "fit_window": "2026-11-01..2026-11-07",
+    "rule": "self-adaptive ML retrain harness",
+    "oos": {
+      "type": "self-adaptive retrain harness",
+      "evidence": "retrain cadence (window=200, retrain_every=40) and offline feature-selection evaluation; no fixed directional OOS stats",
+      "retrain_every": 40,
+      "window": 200,
+      "n_features": 8,
+      "n_features_kept": 8
+    },
+    "status": "runnable (non-directional)",
+    "regime_coverage": [
+      "low_vol",
+      "trend",
+      "reversal"
+    ],
+    "max_trades_per_day": 48,
+    "connector": "cme (IC Markets cTrader) / binance",
+    "evidence": "Retrain cadence (window/retrain_every) + offline feature-selection evaluation; no fixed directional OOS stats",
+    "loadable": true,
+    "build": "freqai"
+  },
+  {
+    "name": "regime_adaptive",
+    "class": "RegimeStrategy",
+    "fit_window": "2026-11-01..2026-11-07",
+    "rule": "Gaussian-mixture 3-state regime detector",
+    "oos": {
+      "type": "regime state descriptor (HOLD)",
+      "evidence": "market regime distribution over sample",
+      "regime_counts": {
+        "0": 0,
+        "1": 0,
+        "2": 5000
+      },
+      "regime_distribution": {
+        "0": 0.0,
+        "1": 0.0,
+        "2": 1.0
+      }
+    },
+    "status": "runnable (non-directional)",
+    "regime_coverage": [
+      "low_vol",
+      "trend",
+      "reversal"
+    ],
+    "max_trades_per_day": 48,
+    "connector": "cme (IC Markets cTrader) / binance",
+    "evidence": "Regime distribution over sample; emits HOLD state descriptor (regime field), consumed by the ensemble as a state signal",
+    "loadable": true,
+    "build": "regime_adaptive"
+  }
+]

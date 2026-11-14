@@ -1,6 +1,6 @@
 """Tests for the execution layer."""
 
-import pytest
+
 from exec.broker import Broker
 
 

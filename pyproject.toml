@@ -1,0 +1,6 @@
+[tool.ruff]
+line-length = 88
+exclude = ["venv", "pytest-target", "__pycache__", "logs", ".hermes"]
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "I"]
+ignore = ["E501"]

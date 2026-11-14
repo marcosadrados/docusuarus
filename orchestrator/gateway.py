@@ -1,5 +1,8 @@
 """Trading loop gateway for managing the orchestrator."""
 
+from orchestrator.main import Orchestrator  # noqa: E401
+
+
 class Gateway:
     def __init__(self, config=None):
         self.config = config or {}

@@ -12,7 +12,7 @@ api_secret: "YOUR_CLIENT_SECRET"
 # IC Markets cTrader account ID (trader login)
 account_id: 1234567
 
-# Markets to trade (cTrader CFD codes)
+# Markets to trade (cTrader CFD codes).
 markets:
   - CL=F        # WTI Crude Oil
   - NG=F        # Natural Gas
@@ -20,7 +20,26 @@ markets:
   - HG=F        # Copper
   - SI=F        # Silver
   - XAU=F       # Gold spot (if trading)
-  - XAG=F       # Silver spot
+  - XAG=F       # Silver
+
+# Crypto markets (quote is always USDT).
+crypto_markets:
+  - BTC/USDT
+  - ETH/USDT
+  - SOL/USDT
+
+# Source connector map (per market code).
+connector_map:
+  CL=F: cme
+  NG=F: cme
+  GC=F: cme
+  HG=F: cme
+  SI=F: cme
+  XAU=F: cme
+  XAG=F: cme
+  BTC/USDT: binance
+  ETH/USDT: binance
+  SOL/USDT: binance
 
 # Risk Parameters
 risk:
@@ -37,3 +56,48 @@ trading:
 logging:
   level: INFO
   log_file: "logs/trading.log"
+
+# ===========================================================================
+# Token kline paper-feeder (real tokens)
+# ===========================================================================
+# Run the paper phase over a real token pool's on-chain fills instead of the
+# synthetic stand-in. When `provider` is unset or unknown the runner falls back
+# to the synthetic feed so nothing is broken.
+token_klines:
+  provider: raydium
+  pool: "<Raydium pool PDA, base58>"
+  rpc_url: "https://api.helius.xyz/?api-key=YOUR_HELIUS_KEY"
+  program_id: "El32oWAQvjNmyYHfT99f3JxZdVmQTELGSzTLzCR6n6W6"
+  limit: 500
+
+# ===========================================================================
+# Paper / testnet trading example (Binance Futures testnet)   <-- paper mode
+# ===========================================================================
+# To paper-trade crypto futures instead of cTrader spot, switch the broker
+# and set futures + test.  The engine stays identical; only the broker and
+# testnet flag change:
+#
+# broker: binance
+# paper_trading: true
+# futures: true        # USDT-margined perpetuals instead of spot
+# test: true           # CCXT sandbox -> Binance Futures testnet (demo-fapi),
+#                      # real klines but simulated fills; no real money
+# trading:
+#   tick_interval: 5
+#   paper_trading: true
+# markets:
+#   - CL=F
+#   - GC=F
+# crypto_markets:
+#   - BTC/USDT          # symbol stays BTC/USDT; futures product selected via
+#                       # the broker's defaultType=future so this is the
+#                       # perpetual, not the spot market
+# connector_map:
+#   CL=F: cme
+#   BTC/USDT: binance   # spot+perp share the same symbol code
+#   ETH/USDT: binance
+#   SOL/USDT: binance
+#
+# Only the broker + testnet flag differ from the cTrader setup above, so the
+# same events, ATR risk scaler and per-day report keep running unmodified.
+

@@ -1,8 +1,7 @@
 """Tests for the backtesting framework."""
 
-import pytest
+
 from backtest.runner import BacktestRunner
-from backtest.analyzer import Analyzer
 
 
 def test_backtest_runner_exists():

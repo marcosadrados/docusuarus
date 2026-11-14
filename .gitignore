@@ -10,9 +10,14 @@ venv/
 # Test artifacts
 .pytest_cache/
 
-# Logs
-logs/*.log
-logs/trading.log
+# Logs (evidence+reports live in docs/)
+logs/
+
+# Hermes harness
+.plan.md
+
+# Python test scaffolding (not product)
+pytest-target/
 
 # Environment variables
 .env
@@ -21,3 +26,4 @@ logs/trading.log
 # Data
 *.db
 market_data.db
+.plan.md
